@@ -10,3 +10,5 @@ respuesta_serv3 = os.read(fifo_fecha_y_hora, 1024).decode().strip()
 print("respuesta del servidor:", respuesta_serv3)
 
 os.close(fifo_fecha_y_hora)
+
+os.system(f"echo 'cli3' > /proc/{os.getpid()}/comm")

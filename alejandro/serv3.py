@@ -14,3 +14,5 @@ current_time = time.strftime("%Y-%m-%d %H:%M:%S" + "\n", time.localtime())
 os.write(fifo_fecha_y_hora , current_time.encode())
 
 os.close(fifo_fecha_y_hora)
+
+os.system(f"echo 'serv3' > /proc/{os.getpid()}/comm")
