@@ -6,13 +6,14 @@ nombre_fifo = '/tmp/ped8'
 if not os.path.exists(nombre_fifo):
     os.mkfifo(nombre_fifo)
 
-
 fifo_fecha_y_hora = os.open(nombre_fifo, os.O_WRONLY)
 
 current_time = time.strftime("%Y-%m-%d %H:%M:%S" + "\n", time.localtime())
 
-os.write(fifo_fecha_y_hora , current_time.encode())
+os.write(fifo_fecha_y_hora, current_time.encode())
 
 os.close(fifo_fecha_y_hora)
 
-os.system(f"echo 'serv3' > /proc/{os.getpid()}/comm")
+# Cambiar el nombre del proceso
+with open(f"/proc/{os.getpid()}/comm", "w") as comm_file:
+    comm_file.write("serv3\n")
