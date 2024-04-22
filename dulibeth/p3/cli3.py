@@ -1,8 +1,9 @@
 import os
 import sys
 
+fifog8 = os.mkfifo('/tmp/fifog8')
 #Abro la fifo
-fifo_read = os.open('/tmp/fifo_p3', os.O_RDONLY)
+fifo_read = os.open(fifog8, os.O_RDONLY)
 
 #Ejemplo si tengo varios mensajes
 while True:
