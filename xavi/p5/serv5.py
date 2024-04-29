@@ -14,15 +14,7 @@ while True:
         data_s = os.read(file, 1024)
         if not data_s:
             break
-        serv_socket.sendto(address, data_s)
+        serv_socket.sendto(data_s, address)
     os.close(file)
 
 serv_socket.close()
-
-
-
-
-
-
-
-
