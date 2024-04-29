@@ -1,8 +1,10 @@
 file = $@
 
-run:
-	python3 cliserv2.py $(file)
+cli:
+	@python3 cli4.py $(file)
 
+serv: 
+	@python3 serv4.py 
 %:
 	@echo "La regla '$@' no está definida en el Makefile."
 	@false
