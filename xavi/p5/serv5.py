@@ -2,7 +2,7 @@ import socket, os
 
 serv_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-serv_socket.bind(('0.0.0.0', 0))
+serv_socket.bind(('192.168.164.138', 8008))
 
 while True:
     data_r, address = serv_socket.recvfrom(1024)
