@@ -1,16 +1,18 @@
 import socket, os, sys 
 
-server_socket   = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-server_socket.bind(('0.0.0.0', 0))
+server_socket.bind(('192.168.164.141', 8000))
+
+server_socket.listen(3)
 
 stderr = sys.stderr.fileno()
 
-while True: 
-    conection, address = server_socket.accept()
-    os.write(stderr, address.encode('utf-8')  + b'\n')
+while True:
+    connection, address = server_socket.accept()
+    os.write(stderr, str(address).encode('utf-8')  + b'\n')
 
-    fd = conection.fileno()
+    fd = connection.fileno()
 
     file = os.read(fd, 1024)
     fd_file = os.open(file, os.O_RDONLY)
@@ -20,6 +22,5 @@ while True:
             break
         os.write(fd, data)
     os.close(fd_file)
-    file.close()
-    os.close(fd)
-
+    connection.close()
+server_socket.close()
