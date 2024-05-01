@@ -1,4 +1,4 @@
-import socket, os
+import socket, os, time
 
 serv_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
@@ -13,16 +13,9 @@ while True:
     while True: 
         data_s = os.read(file, 1024)
         if not data_s:
+            serv_socket.sendto(b"", address)
             break
-        serv_socket.sendto(address, data_s)
+        serv_socket.sendto(data_s, address)
     os.close(file)
 
 serv_socket.close()
-
-
-
-
-
-
-
-
