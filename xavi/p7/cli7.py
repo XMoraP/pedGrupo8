@@ -1,4 +1,4 @@
-import socket, os, sys 
+import socket, os, sys
 
 client_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 

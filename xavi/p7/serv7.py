@@ -1,4 +1,4 @@
-import socket, os, sys
+import socket, os, sys, select
 
 server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -8,12 +8,19 @@ stderr = sys.stderr.fileno()
 
 server_sock.listen(3) 
 
+rlist = [server_sock]
+wlist = []
+
+ready_read, ready_write, _ = select.select(rlist, wlist, [], None)
+        
 while True:
     os.write(stderr, b'Esperando conexiones\n')
     client_sock, address = server_sock.accept()
     os.write(stderr, str(address).encode('utf-8')+b'\n')
     
     fd = client_sock.fileno()
+
+    rlist.append(fd)
 
     login = os.read(fd, 1024)
     new_user = f'[' + str(login) + ']'
