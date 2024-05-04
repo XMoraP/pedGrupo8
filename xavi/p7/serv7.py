@@ -11,7 +11,7 @@ os.write(stderr, b'Esperando conexiones\n')
 
 fd_server = server_sock.fileno()
 
-rlist = [fd_server]
+rlist = [server_sock]
 wlist = []
 
 ready_read, ready_write, _ = select.select(rlist, wlist, [], None)
@@ -22,7 +22,7 @@ while True:
     
     fd = client_sock.fileno()
 
-    rlist.append(fd)
+    rlist.append(client_sock)
 
     login = os.read(fd, 1024)
     new_user = f'[' + str(login) + ']'
