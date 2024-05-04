@@ -7,14 +7,16 @@ server_sock.bind(('0.0.0.0', 8008))
 stderr = sys.stderr.fileno()
 
 server_sock.listen(3) 
+os.write(stderr, b'Esperando conexiones\n')
 
-rlist = [server_sock]
+fd_server = server_sock.fileno()
+
+rlist = [fd_server]
 wlist = []
 
 ready_read, ready_write, _ = select.select(rlist, wlist, [], None)
         
 while True:
-    os.write(stderr, b'Esperando conexiones\n')
     client_sock, address = server_sock.accept()
     os.write(stderr, str(address).encode('utf-8')+b'\n')
     
