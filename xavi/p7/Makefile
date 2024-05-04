@@ -1,7 +1,7 @@
-file = $@
+login = $@
 
 cli:
-	@python3 cli7.py $(file)
+	@python3 cli7.py $(login)
 
 serv: 
 	@python3 serv7.py 

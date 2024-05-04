@@ -17,7 +17,7 @@ while not out:
     chat_output =  os.read(fd, 1024)
     os.write(stdout, chat_output)
     chat_input = input('>>>[' + user + ']:')
-    if input.lower() == 'salir':
+    if chat_input.lower() == 'salir':
         os.write(stdout, b'Saliendo del chat...')
         out = True
         os.close(fd)
