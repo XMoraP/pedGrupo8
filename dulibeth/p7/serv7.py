@@ -23,20 +23,20 @@ print("Servidor activo. Esperando clientes...")
 while True:
     lectura, _, _ = select.select(lista_lectura, [], [])
 
-    for fd in lectura:
-        if fd is serv_socket:
+    for sock in lectura:
+        if sock is serv_socket:
             cliente_socket, cliente_addr = serv_socket.accept()
-            print("Nueva conexión de cliente ", cliente_addr)
+            print("Nueva conexión de cliente", cliente_addr)
             lista_lectura.append(cliente_socket)
             clientes.append(cliente_socket)
         else:
-            datos = fd.recv(1024)
+            datos = sock.recv(1024)
             if datos:
-                mensaje = f"{fd.getpeername()[0]}: {datos.decode()}"
+                mensaje = f"{sock.getpeername()[0]}: {datos.decode()}"
                 print(mensaje)
-                enviar_mensajes(mensaje.encode(), fd, clientes)
+                enviar_mensajes(mensaje.encode(), sock, clientes)
             else:
-                print(f"{fd.getpeername()[0]} desconectado.")
-                lista_lectura.remove(fd)
-                clientes.remove(fd)
-                fd.close()
+                print(f"{sock.getpeername()[0]} desconectado.")
+                lista_lectura.remove(sock)
+                clientes.remove(sock)
+                sock.close()

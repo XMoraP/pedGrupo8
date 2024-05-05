@@ -9,8 +9,8 @@ lista_lectura = [cliente_socket, sys.stdin]
 print("Empiece a escribir mensajes:")
 while True:
     lectura, _, _ = select.select(lista_lectura, [], [])
-    for fd in lectura:
-        if fd is cliente_socket:
+    for sock in lectura:
+        if sock is cliente_socket:
             mensaje = cliente_socket.recv(1024).decode()
             if not mensaje:
                 print("Se perdió la conexión con el servidor.")
