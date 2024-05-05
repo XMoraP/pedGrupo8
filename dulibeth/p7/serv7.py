@@ -37,8 +37,9 @@ while True:
         if sock is serv_socket:
             cliente_socket, cliente_addr = serv_socket.accept()
             print("Nueva conexión de cliente ", cliente_addr)
-            user = sock.recv(1024)
-            bd_usuarios[cliente_socket.getpeername()[0]] = user
+            user = cliente_socket.recv(1024)
+            bd_usuarios[cliente_socket.getpeername()[1]] = '\n[' + str(user.decode('utf-8')) + ']:'
+            print(user.decode('utf-8'))
             lista_lectura.append(cliente_socket)
             clientes.append(cliente_socket)
         elif sock is sys.stdin:
@@ -48,7 +49,7 @@ while True:
         else:
             datos = sock.recv(1024)
             if datos:
-                valor = bd_usuarios[sock.getpeername()[0]]
+                valor = bd_usuarios[sock.getpeername()[1]]
                 mensaje = f"{valor}: {datos.decode()}"
                 print(mensaje)
                 enviar_mensajes(mensaje.encode(), sock, clientes)
