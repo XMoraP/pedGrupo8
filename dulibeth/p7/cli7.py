@@ -2,10 +2,12 @@ import socket
 import select
 import sys
 
+login = sys.argv[1]
+
 cliente_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 cliente_socket.connect(('192.168.1.107', 8888))
+cliente_socket.send(login.encode())
 
-login = sys.argv[1]
 new_user = f'[' + str(login) + ']'
 
 lista_lectura = [cliente_socket, sys.stdin]

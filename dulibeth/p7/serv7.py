@@ -11,6 +11,14 @@ def enviar_mensajes(mensaje, emisor, clientes):
                 cliente.close()
                 clientes.remove(cliente)
 
+def detener_servidor():
+    print("Deteniendo el servidor...")
+    mensaje_desconexion = "El servidor se ha detenido. Desconéctese por favor."
+    for cliente in clientes:
+        cliente.send(mensaje_desconexion.encode())
+    serv_socket.close()
+    sys.exit()
+
 serv_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 serv_socket.bind(('0.0.0.0', 8888))
 serv_socket.listen(5)
@@ -18,25 +26,34 @@ serv_socket.listen(5)
 clientes = []
 lista_lectura = [serv_socket]
 
+bd_usuarios = {}
+
 print("Servidor activo. Esperando clientes...")
 
 while True:
-    lectura, _, _ = select.select(lista_lectura, [], [])
+    lectura, _, _ = select.select(lista_lectura + [sys.stdin], [], [])
 
     for sock in lectura:
         if sock is serv_socket:
             cliente_socket, cliente_addr = serv_socket.accept()
-            print("Nueva conexión de cliente", cliente_addr)
+            print("Nueva conexión de cliente ", cliente_addr)
+            user = sock.recv(1024)
+            bd_usuarios[cliente_socket.getpeername()[0]] = user
             lista_lectura.append(cliente_socket)
             clientes.append(cliente_socket)
+        elif sock is sys.stdin:
+            comando = sys.stdin.readline().strip().lower()
+            if comando == "stop":
+                detener_servidor()
         else:
             datos = sock.recv(1024)
             if datos:
-                mensaje = f"{sock.getpeername()[0]}: {datos.decode()}"
+                valor = bd_usuarios[sock.getpeername()[0]]
+                mensaje = f"{valor}: {datos.decode()}"
                 print(mensaje)
                 enviar_mensajes(mensaje.encode(), sock, clientes)
             else:
-                print(f"{sock.getpeername()[0]} desconectado.")
+                print("Cliente desconectado.")
                 lista_lectura.remove(sock)
                 clientes.remove(sock)
                 sock.close()
