@@ -8,26 +8,20 @@ cliente_socket.connect(('192.168.1.107', 8888))
 login = sys.argv[1]
 new_user = f'[' + str(login) + ']'
 
-db_users = ['user']
-
 lista_lectura = [cliente_socket, sys.stdin]
-for user in db_users:
-    if user == new_user:
-        print('Nombre de ususario no disponible')
-        break
-    else:
-        while True:
-            lectura, _, _ = select.select(lista_lectura, [], [])
-            for sock in lectura:
-                if sock is cliente_socket:
-                    mensaje = cliente_socket.recv(1024).decode()
-                    if not mensaje:
-                        print("Se perdió la conexión con el servidor.")
-                        sys.exit()
-                    else:
-                        print(mensaje)
-                else:
-                    mensaje = input('>>>[' + user + ']:')
-                    cliente_socket.send(mensaje.encode())
+
+while True:
+    lectura, _, _ = select.select(lista_lectura, [], [])
+    for sock in lectura:
+        if sock is cliente_socket:
+            mensaje = cliente_socket.recv(1024).decode()
+            if not mensaje:
+                print("Se perdió la conexión con el servidor.")
+                sys.exit()
+            else:
+                print(mensaje)
+        else:
+            mensaje = input('>>>[' + str(login) + ']:')
+            cliente_socket.send(mensaje.encode())
 
 cliente_socket.close()
