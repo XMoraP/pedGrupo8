@@ -12,7 +12,7 @@ def enviar_mensajes(mensaje, emisor, clientes):
                 clientes.remove(cliente)
 
 serv_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-serv_socket.bind(('192.168.127.139', 8888))
+serv_socket.bind(('0.0.0.0', 8888))
 serv_socket.listen(5)
 
 clientes = []
