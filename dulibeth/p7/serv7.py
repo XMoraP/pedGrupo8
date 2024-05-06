@@ -28,7 +28,7 @@ lista_lectura = [serv_socket]
 
 bd_usuarios = {}
 
-print("Servidor activo. Esperando clientes...")
+print("Servidor activo." + "\n" + "Esperando clientes...")
 
 while True:
     lectura, _, _ = select.select(lista_lectura + [sys.stdin], [], [])
@@ -56,7 +56,7 @@ while True:
             datos = sock.recv(1024)
             if datos:
                 valor = bd_usuarios[sock.getpeername()[1]]
-                mensaje = f"{valor}: {datos.decode()}"
+                mensaje = f"\n{valor}: {datos.decode()}"
                 print(mensaje)
                 enviar_mensajes(mensaje.encode(), sock, clientes)
             else:

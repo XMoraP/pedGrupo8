@@ -23,7 +23,7 @@ while True:
             else:
                 print(mensaje)
         else:
-            mensaje = input('[' + str(login) + ']:').strip()
+            mensaje = input('\n' + '[' + str(login) + ']:').strip()
             cliente_socket.send(mensaje.encode())
 
 cliente_socket.close()
