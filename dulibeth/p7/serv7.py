@@ -38,10 +38,16 @@ while True:
             cliente_socket, cliente_addr = serv_socket.accept()
             print("Nueva conexión de cliente ", cliente_addr)
             user = cliente_socket.recv(1024)
-            bd_usuarios[cliente_socket.getpeername()[1]] = '\n[' + str(user.decode('utf-8')) + ']:'
-            print(user.decode('utf-8'))
-            lista_lectura.append(cliente_socket)
-            clientes.append(cliente_socket)
+            v_buscado = '[' + str(user.decode('utf-8')) + ']'
+            if v_buscado in bd_usuarios.values():
+                mensaje_para_cliente = "Nombre de usuario no diponible"
+                cliente_socket.send(mensaje_para_cliente.encode())
+                cliente_socket.close()
+            else:
+                bd_usuarios[cliente_socket.getpeername()[1]] = '[' + str(user.decode('utf-8')) + ']'
+                print(user.decode('utf-8'))
+                lista_lectura.append(cliente_socket)
+                clientes.append(cliente_socket)
         elif sock is sys.stdin:
             comando = sys.stdin.readline().strip().lower()
             if comando == "stop":

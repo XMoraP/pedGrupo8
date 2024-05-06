@@ -18,7 +18,7 @@ while True:
         if sock is cliente_socket:
             mensaje = cliente_socket.recv(1024).decode()
             if not mensaje:
-                print("Se perdió la conexión con el servidor.")
+                print("No hay conexion.")
                 sys.exit()
             else:
                 print(mensaje)
