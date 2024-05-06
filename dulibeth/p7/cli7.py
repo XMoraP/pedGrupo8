@@ -12,6 +12,10 @@ new_user = f'[' + str(login) + ']'
 
 lista_lectura = [cliente_socket, sys.stdin]
 
+def mostrar_prompt():
+    # Imprime el prompt sin nueva línea al final.
+    print(f'[{str(login)}]:', end=' ', flush=True)
+
 while True:
     lectura, _, _ = select.select(lista_lectura, [], [])
     for sock in lectura:
@@ -21,9 +25,10 @@ while True:
                 print("Desconectando...")
                 sys.exit()
             else:
-                print(mensaje)
+                print(f"\r{mensaje}")
         else:
             mensaje = input('\n' + '[' + str(login) + ']:').strip()
             cliente_socket.send(mensaje.encode())
+            mostrar_prompt()
 
 cliente_socket.close()
