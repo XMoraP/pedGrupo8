@@ -56,7 +56,7 @@ while True:
             datos = sock.recv(1024)
             if datos:
                 valor = bd_usuarios[sock.getpeername()[1]]
-                mensaje = f"\n{valor}: {datos.decode()}"
+                mensaje = f"{valor}: {datos.decode()}"
                 print(mensaje)
                 enviar_mensajes(mensaje.encode(), sock, clientes)
             else:

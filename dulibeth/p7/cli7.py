@@ -25,9 +25,9 @@ while True:
                 print("Desconectando...")
                 sys.exit()
             else:
-                print(f"\r{mensaje}")
+                print(f'\r{mensaje}', end='', flush=True)
         else:
-            mensaje = input('\n' + '[' + str(login) + ']:').strip()
+            mensaje = input('[' + str(login) + ']:').strip()
             cliente_socket.send(mensaje.encode())
             mostrar_prompt()
 
