@@ -36,9 +36,13 @@ def auth():
     else:
         user_name = sys.argv[1]
         cliente_socket.send(user_name.encode())
-        passwd = getpass.getpass(prompt="Introduzca su contraseña: ")
-        cliente_socket.send(passwd.encode())
-
+        if cliente_socket.recv(1024).decode() == 'ok':
+            passwd = getpass.getpass(prompt="Introduzca su contraseña: ")
+            cliente_socket.send(passwd.encode())
+            print('Nombre de usuario no valido')
+            sys.exit()
+    
+auth()
 
 new_user = f'[' + str(user_name()) + ']'
 

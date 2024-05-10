@@ -53,6 +53,9 @@ while True:
             print("Nueva conexión de cliente ", cliente_addr)
             user = cliente_socket.recv(1024)
             my_user = '[' + str(user.decode('utf-8')) + ']'
+            if my_user in bd_usuarios:
+                cod = 'ok'
+                cliente_socket.send(cod.encode())
             passwd = cliente_socket.recv(1024)
             my_passwd = passwd.decode('utf-8')
             prompt = mostrar_prompt(user.decode('utf-8'))
