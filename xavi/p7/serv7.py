@@ -56,6 +56,9 @@ while True:
             if my_user in bd_usuarios:
                 cod = 'ok'
                 cliente_socket.send(cod.encode())
+            else:
+                cod = 'no ok'
+                cliente_socket.send(cod.encode())
             passwd = cliente_socket.recv(1024)
             my_passwd = passwd.decode('utf-8')
             prompt = mostrar_prompt(user.decode('utf-8'))
