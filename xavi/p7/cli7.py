@@ -5,6 +5,7 @@ import getpass
 
 sys.path.append('/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages')
 import passlib.hash as phash
+from passlib.context import CryptContext
 
 login = sys.argv[1]
 
@@ -13,14 +14,20 @@ cliente_socket.connect(('192.168.164.141', 8888))
 cliente_socket.send(login.encode())
 
 passwd = getpass.getpass(prompt="Introduzca su contraseña: ")
-my_hash = phash.bcrypt
-passwd_hash = my_hash.hash(passwd)
+
+context = CryptContext(
+        schemes=["pbkdf2_sha256"],
+        default="pbkdf2_sha256",
+        pbkdf2_sha256__default_rounds=50000
+)
+hashed_password = context.hash(passwd)
+print(context.verify("test_password", hashed_password))
 
 
 print(f"Contraseña ingresada: {passwd}")
-print(f"Contraseña encriptada: {passwd_hash}")
+print(f"Contraseña encriptada: {hashed_password}")
 
-cliente_socket.send(passwd_hash.encode())
+cliente_socket.send(hashed_password.encode())
 
 
 

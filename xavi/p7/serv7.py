@@ -2,6 +2,13 @@ import select
 import socket
 import sys
 from passlib.hash import bcrypt
+from passlib.context import CryptContext
+
+context = CryptContext(
+        schemes=["pbkdf2_sha256"],
+        default="pbkdf2_sha256",
+        pbkdf2_sha256__default_rounds=50000
+)
 
 
 def enviar_mensajes(mensaje, emisor, clientes):
@@ -53,7 +60,7 @@ while True:
 
             if my_user in bd_usuarios:
                 
-                if not bcrypt.verify(my_passwd, bd_usuarios[my_user]['passwd']):
+                if not context.verify(my_passwd, bd_usuarios[my_user]['passwd']):
                     mensaje_para_cliente = "Contraseña incorrecta"
                     cliente_socket.send(mensaje_para_cliente.encode())
                     cliente_socket.close()
@@ -61,7 +68,7 @@ while True:
                     mensaje_para_cliente = "Este usuario ya se encuentra en linea."
                     cliente_socket.send(mensaje_para_cliente.encode())
                     cliente_socket.close()
-                elif bcrypt.verify(my_passwd, bd_usuarios[my_user]['passwd']):
+                elif context.verify(my_passwd, bd_usuarios[my_user]['passwd']):
                     welcome = '\nBienvenido ' + my_user
                     puerto[cliente_socket.getpeername()[1]] = my_user
                     cliente_socket.send(welcome.encode())
