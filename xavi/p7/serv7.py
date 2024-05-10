@@ -53,7 +53,7 @@ while True:
 
             if my_user in bd_usuarios:
                 
-                if not bcrypt.identify(my_passwd, bd_usuarios[my_user]['passwd']):
+                if not bcrypt.verify(my_passwd, bd_usuarios[my_user]['passwd']):
                     mensaje_para_cliente = "Contraseña incorrecta"
                     cliente_socket.send(mensaje_para_cliente.encode())
                     cliente_socket.close()
