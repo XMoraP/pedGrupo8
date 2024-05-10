@@ -2,7 +2,9 @@ import socket
 import select
 import sys
 import getpass
-import bcrypt
+
+sys.path.append('/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages')
+import passlib.hash as phash
 
 login = sys.argv[1]
 
@@ -11,9 +13,8 @@ cliente_socket.connect(('192.168.164.138', 8888))
 cliente_socket.send(login.encode())
 
 passwd = getpass.getpass(prompt="Introduzca su contraseña: ")
-salt = bcrypt.gensalt()
-
-passwd_hash = bcrypt.hashpw(passwd.encode('utf-8'), salt)
+my_hash = phash.bcrypt
+passwd_hash = my_hash.hash(passwd)
 
 
 print(f"Contraseña ingresada: {passwd_hash}")
