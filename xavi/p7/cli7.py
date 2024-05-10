@@ -7,37 +7,46 @@ sys.path.append('/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.
 import passlib.hash as phash
 from passlib.context import CryptContext
 
-login = sys.argv[1]
-
 cliente_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 cliente_socket.connect(('192.168.164.141', 8888))
-cliente_socket.send(login.encode())
-
-passwd = getpass.getpass(prompt="Introduzca su contraseña: ")
 
 context = CryptContext(
         schemes=["pbkdf2_sha256"],
         default="pbkdf2_sha256",
         pbkdf2_sha256__default_rounds=50000
 )
-hashed_password = context.hash(passwd)
-print(context.verify("test_password", hashed_password))
+
+def user_name():
+    if sys.argv[1] == 'no':
+        user_name = sys.argv[2]
+        return user_name
+    else:
+        user_name = sys.argv[1]
+        return user_name
+
+def auth():
+    if sys.argv[1] == 'no':
+        user_name = sys.argv[2]
+        cliente_socket.send(user_name.encode())
+        passwd = getpass.getpass(prompt="Introduzca su contraseña: ")
+        hashed_password = context.hash(passwd)
+        cliente_socket.send(hashed_password.encode())
+        print(f"Contraseña ingresada: {passwd}")
+        print(f"Contraseña encriptada: {hashed_password}")
+    else:
+        user_name = sys.argv[1]
+        cliente_socket.send(user_name.encode())
+        passwd = getpass.getpass(prompt="Introduzca su contraseña: ")
+        cliente_socket.send(passwd.encode())
 
 
-print(f"Contraseña ingresada: {passwd}")
-print(f"Contraseña encriptada: {hashed_password}")
-
-cliente_socket.send(hashed_password.encode())
-
-
-
-new_user = f'[' + str(login) + ']'
+new_user = f'[' + str(user_name()) + ']'
 
 lista_lectura = [cliente_socket, sys.stdin]
 
 def mostrar_prompt():
     # Imprime el prompt sin nueva línea al final.
-    print(f'[{str(login)}]: ', end=' ', flush=True)
+    print(f'[{str(user_name())}]: ', end=' ', flush=True)
 
 while True:
     lectura, _, _ = select.select(lista_lectura, [], [])

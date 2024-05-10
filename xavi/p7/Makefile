@@ -1,7 +1,8 @@
 login = $@
+signup = $@
 
 cli:
-	@python3 cli7.py $(login)
+	@python3 cli7.py $(login) $(signup)
 
 serv: 
 	@python3 serv7.py 
