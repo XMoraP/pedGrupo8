@@ -40,7 +40,8 @@ def auth():
             passwd = getpass.getpass(prompt="Introduzca su contraseña: ")
             cliente_socket.send(passwd.encode())
             print('Nombre de usuario no valido')
-            sys.exit()
+            cliente_socket.close()
+
     
 auth()
 
