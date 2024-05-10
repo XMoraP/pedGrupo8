@@ -30,7 +30,7 @@ bd_usuarios = {}
 puerto = {}
 
 def mostrar_prompt(login):
-   return f'[{str(login)}]:'
+   return f'[{str(login)}]'
 
 print("Servidor activo." + "\n" + "Esperando clientes...")
 
@@ -86,7 +86,7 @@ while True:
             datos = sock.recv(1024)
             if datos:
                 valor = puerto[sock.getpeername()[1]]
-                mensaje = f"\n{valor}\n {datos.decode()}"
+                mensaje = f"{valor}\n {datos.decode()}"
                 print(mensaje)
                 enviar_mensajes(mensaje.encode(), sock, clientes)
 
