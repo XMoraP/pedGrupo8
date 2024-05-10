@@ -1,6 +1,8 @@
 import select
 import socket
 import sys
+from passlib.hash import bcrypt
+
 
 def enviar_mensajes(mensaje, emisor, clientes):
     for cliente in clientes:
@@ -50,8 +52,8 @@ while True:
             cliente_socket.send(prompt.encode())
 
             if my_user in bd_usuarios:
-
-                if my_passwd != bd_usuarios[my_user]['passwd']:
+                
+                if not bcrypt.verify(my_passwd, bd_usuarios[my_user]['passwd']):
                     mensaje_para_cliente = "Contraseña incorrecta"
                     cliente_socket.send(mensaje_para_cliente.encode())
                     cliente_socket.close()
@@ -59,7 +61,7 @@ while True:
                     mensaje_para_cliente = "Este usuario ya se encuentra en linea."
                     cliente_socket.send(mensaje_para_cliente.encode())
                     cliente_socket.close()
-                elif my_passwd == bd_usuarios[my_user]['passwd']:
+                elif bcrypt.verify(my_passwd, bd_usuarios[my_user]['passwd']):
                     welcome = '\nBienvenido ' + my_user
                     puerto[cliente_socket.getpeername()[1]] = my_user
                     cliente_socket.send(welcome.encode())
