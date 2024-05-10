@@ -86,7 +86,7 @@ while True:
             datos = sock.recv(1024)
             if datos:
                 valor = puerto[sock.getpeername()[1]]
-                mensaje = f"{valor}: {datos.decode()}"
+                mensaje = f"\n{valor}\n {datos.decode()}"
                 print(mensaje)
                 enviar_mensajes(mensaje.encode(), sock, clientes)
 

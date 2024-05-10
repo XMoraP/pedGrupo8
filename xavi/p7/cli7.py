@@ -17,7 +17,9 @@ my_hash = phash.bcrypt
 passwd_hash = my_hash.hash(passwd)
 
 
-print(f"Contraseña ingresada: {passwd_hash}")
+print(f"Contraseña ingresada: {passwd}")
+print(f"Contraseña encriptada: {passwd_hash}")
+
 cliente_socket.send(passwd_hash.encode())
 
 
