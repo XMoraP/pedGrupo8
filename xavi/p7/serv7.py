@@ -59,6 +59,7 @@ while True:
             else:
                 cod = 'no ok'
                 cliente_socket.send(cod.encode())
+                break
             passwd = cliente_socket.recv(1024)
             my_passwd = passwd.decode('utf-8')
             prompt = mostrar_prompt(user.decode('utf-8'))

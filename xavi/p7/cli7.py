@@ -41,9 +41,8 @@ def auth():
             cliente_socket.send(passwd.encode())
         else:
             print('Nombre de usuario no valido')
-            cliente_socket.close()
+            sys.exit()
 
-    
 auth()
 
 new_user = f'[' + str(user_name()) + ']'
