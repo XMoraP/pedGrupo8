@@ -30,7 +30,7 @@ lista_lectura = [cliente_socket, sys.stdin]
 
 def mostrar_prompt():
     # Imprime el prompt sin nueva línea al final.
-    print(f'[{str(login)}]:', end=' ', flush=True)
+    print(f'[{str(login)}]\n', end=' ', flush=True)
 
 while True:
     lectura, _, _ = select.select(lista_lectura, [], [])
