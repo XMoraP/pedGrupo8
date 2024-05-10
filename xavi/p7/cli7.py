@@ -9,7 +9,7 @@ import passlib.hash as phash
 login = sys.argv[1]
 
 cliente_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-cliente_socket.connect(('192.168.164.138', 8888))
+cliente_socket.connect(('192.168.164.141', 8888))
 cliente_socket.send(login.encode())
 
 passwd = getpass.getpass(prompt="Introduzca su contraseña: ")
