@@ -7,7 +7,7 @@ cli:
 serv: 
 	@python3 app/serv7.py 
 
-test:
+testt:
 	@python3 -m unittest -v test/test_servidor.py
 
 %:
