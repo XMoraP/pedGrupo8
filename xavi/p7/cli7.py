@@ -4,7 +4,6 @@ import sys
 import getpass
 
 sys.path.append('/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages')
-import passlib.hash as phash
 from passlib.context import CryptContext
 
 cliente_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -37,7 +36,8 @@ def auth():
         cliente_socket.send(validar.encode())
         cliente_socket.recv(1024).decode()
         cliente_socket.send(hashed_password.encode())
-        cliente_socket.recv(1024).decode()
+        print(cliente_socket.recv(1024).decode())
+        print(cliente_socket.recv(1024).decode())
         pass
     else:
         user_name = sys.argv[1]
@@ -56,14 +56,17 @@ def auth():
 new_user = f'[' + str(user_name()) + ']'
 
 lista_lectura = [cliente_socket, sys.stdin]
+lista_conexiones = [cliente_socket, sys.stdin]
 
 def mostrar_prompt():
     # Imprime el prompt sin nueva línea al final.
     print(f'[{str(user_name())}]: ', end=' ', flush=True)
-    
+
+
 auth()
 while True:
     lectura, _, _ = select.select(lista_lectura, [], [])
+    
     for sock in lectura:
         if sock is cliente_socket:
             mensaje = cliente_socket.recv(1024).decode()
