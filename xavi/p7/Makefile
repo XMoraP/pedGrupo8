@@ -2,15 +2,13 @@ login = $@
 signup = $@
 
 cli:
-	@cd app/
-	@python3 cli7.py $(login) $(signup)
+	@python3 app/cli7.py $(login) $(signup)
 
 serv: 
-	@cd app/
-	@python3 serv7.py 
+	@python3 app/serv7.py 
 
 test:
-	@cd test/ && python3 -m unittest discover -v
+	@python3 -m unittest -v test/test_servidor.py
 
 %:
 	@echo "La regla '$@' no está definida en el Makefile."
