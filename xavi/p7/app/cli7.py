@@ -32,7 +32,7 @@ def auth():
         print(f"Contraseña encriptada: {hashed_password}")
         cliente_socket.send(user_name.encode())
         cliente_socket.recv(1024).decode()
-        validar = 'no dale '
+        validar = 'no ok'
         cliente_socket.send(validar.encode())
         cliente_socket.recv(1024).decode()
         cliente_socket.send(hashed_password.encode())
@@ -43,7 +43,7 @@ def auth():
         user_name = sys.argv[1]
         cliente_socket.send(user_name.encode())
         cliente_socket.recv(1024).decode()
-        validar = 'dale '
+        validar = 'ok'
         cliente_socket.send(validar.encode())
         if cliente_socket.recv(1024).decode().strip().startswith('ok'):
             passwd = getpass.getpass(prompt="Introduzca su contraseña: ")
